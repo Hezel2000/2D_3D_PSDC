@@ -28,7 +28,8 @@ st.write('Producing a log-normal fit from uploaded data')
 
 uploaded_file = st.file_uploader('')
 if uploaded_file is not None:
-    st.session_state.dfRaw = pd.read_csv(uploaded_file)
+    #st.session_state.dfRaw = pd.read_csv(uploaded_file)
+    st.session_state.dfRaw = pd.read_excel(uploaded_file)
 
 sel2D3DData = st.session_state.dfRaw.columns.drop_duplicates().tolist()
 
@@ -42,10 +43,10 @@ st.table(np.array([st.session_state.sel2DData,
          st.session_state.sel3DData]).tolist())
 
 setMaxChdDia = st.number_input(
-    'Set the maximum chondrule diameter', value=2000)
+    'Set the maximum chondrule diameter', value=10000)
 
 
-nrOfPlots = len(st.session_state.sel2DData)
+nrOfPlots = len(st.session_state.sel3DData)
 
 fig = plt.figure(figsize=(5, 4 * nrOfPlots), dpi=150)
 
@@ -110,7 +111,13 @@ for i in st.session_state.dfRaw.columns:
         st.session_state.dfRaw[i][st.session_state.dfRaw[i] < setMaxChdDia].dropna().tolist())
     dataParameters.append([i, ms[0], ms[1]])
 
+metzlerParams = []
+for i in range(7):
+    ms = calcMuSigma(st.session_state.dfRaw.iloc[:, i].dropna().tolist())
+#    ms = calcMuSigma(st.session_state.dfRaw.iloc[:, i][st.session_state.dfRaw.iloc[:, i] < 1500].dropna().tolist())
+    metzlerParams.append([st.session_state.dfRaw.columns[i], ms])
 
 st.table(dataParameters)
+st.table(metzlerParams)
 
 st.write(st.session_state.dfRaw)
