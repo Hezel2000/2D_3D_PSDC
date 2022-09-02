@@ -111,13 +111,6 @@ for i in st.session_state.dfRaw.columns:
         st.session_state.dfRaw[i][st.session_state.dfRaw[i] < setMaxChdDia].dropna().tolist())
     dataParameters.append([i, ms[0], ms[1]])
 
-metzlerParams = []
-for i in range(7):
-    ms = calcMuSigma(st.session_state.dfRaw.iloc[:, i].dropna().tolist())
-#    ms = calcMuSigma(st.session_state.dfRaw.iloc[:, i][st.session_state.dfRaw.iloc[:, i] < 1500].dropna().tolist())
-    metzlerParams.append([st.session_state.dfRaw.columns[i], ms])
-
 st.table(dataParameters)
-st.table(metzlerParams)
 
 st.write(st.session_state.dfRaw)
