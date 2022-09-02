@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from os import TMP_MAX
 import streamlit as st
 import matplotlib.pyplot as plt
 from scipy import stats
