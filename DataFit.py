@@ -45,8 +45,7 @@ st.table(np.array([st.session_state.sel2DData,
 setMaxChdDia = st.number_input(
     'Set the maximum chondrule diameter', value=10000)
 
-
-nrOfPlots = len(st.session_state.sel3DData)
+nrOfPlots = len(st.session_state.sel2DData)
 
 fig = plt.figure(figsize=(5, 4 * nrOfPlots), dpi=150)
 
@@ -109,8 +108,12 @@ dataParameters = []
 for i in st.session_state.dfRaw.columns:
     ms = calcMuSigma(
         st.session_state.dfRaw[i][st.session_state.dfRaw[i] < setMaxChdDia].dropna().tolist())
-    dataParameters.append([i, ms[0], ms[1]])
+    dataParameters.append(
+        [i, ms[0], ms[1], np.e**(ms[0] + .5 * ms[1]**2), np.e**ms[0], np.e**(ms[0] - ms[1]**2)])
 
-st.table(dataParameters)
+dataParams = pd.DataFrame(dataParameters).rename(
+    columns={0: 'name', 1: 'µ', 2: 'σ', 3: 'mean', 4: 'median', 5: 'mode'})
+
+st.table(dataParams)
 
 st.write(st.session_state.dfRaw)
