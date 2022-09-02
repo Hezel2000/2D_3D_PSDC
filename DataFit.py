@@ -28,8 +28,8 @@ st.write('Producing a log-normal fit from uploaded data')
 
 uploaded_file = st.file_uploader('')
 if uploaded_file is not None:
-    #st.session_state.dfRaw = pd.read_csv(uploaded_file)
-    st.session_state.dfRaw = pd.read_excel(uploaded_file)
+    st.session_state.dfRaw = pd.read_csv(uploaded_file)
+
 
 sel2D3DData = st.session_state.dfRaw.columns.drop_duplicates().tolist()
 
